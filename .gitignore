@@ -1,9 +1,0 @@
-# Archivos generados
-tasks.json
-*.exe
-*.test
-TaskTrackerGo
-
-# Directorios de editor (opcional)
-.vscode/
-.idea/
