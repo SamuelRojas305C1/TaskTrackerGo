@@ -7,30 +7,25 @@ import (
 
 const (
 	msgInvalidID = "ID inválido"
-	msgSaveError = "Error al guardar:"
 	msgError     = "Error:"
 )
 
-func handleAdd(args []string, tasks []Task) {
+func handleAdd(args []string, manager *TaskManager) {
 	if len(args) < 1 {
 		fmt.Println("Error: Debes proporcionar una descripción. Ejemplo: taskGo add \"Mi tarea\"")
 		return
 	}
 
-	updated, newTask, err := AddTask(tasks, args[0])
+	newTask, err := manager.AddTask(args[0])
 	if err != nil {
 		fmt.Println("Error al crear tarea:", err)
 		return
 	}
 
-	if err := SaveTasks(updated); err != nil {
-		fmt.Println("Error al guardar la tarea:", err)
-		return
-	}
 	fmt.Printf("Tarea agregada exitosamente (ID %d)\n", newTask.ID)
 }
 
-func handleList(args []string, tasks []Task) {
+func handleList(args []string, manager *TaskManager) {
 	filter := ""
 	if len(args) > 0 {
 		filter = args[0]
@@ -38,14 +33,14 @@ func handleList(args []string, tasks []Task) {
 
 	fmt.Printf("%-4s | %-12s | %s\n", "ID", "Estado", "Descripción")
 	fmt.Println("--------------------------------------------------")
-	for _, t := range tasks {
-		if filter == "" || filter == t.Status {
+	for _, t := range manager.GetTasks() {
+		if filter == "" || filter == string(t.Status) {
 			fmt.Printf("%-4d | %-12s | %s\n", t.ID, t.Status, t.Description)
 		}
 	}
 }
 
-func handleUpdate(args []string, tasks []Task) {
+func handleUpdate(args []string, manager *TaskManager) {
 	if len(args) < 2 {
 		fmt.Println("Uso: update <id> <nueva descripción>")
 		return
@@ -57,20 +52,16 @@ func handleUpdate(args []string, tasks []Task) {
 		return
 	}
 
-	updated, err := UpdateTask(tasks, id, args[1])
+	err = manager.UpdateTask(id, args[1])
 	if err != nil {
 		fmt.Println(msgError, err)
 		return
 	}
 
-	if err := SaveTasks(updated); err != nil {
-		fmt.Println(msgSaveError, err)
-		return
-	}
 	fmt.Printf("Tarea %d actualizada\n", id)
 }
 
-func handleDelete(args []string, tasks []Task) {
+func handleDelete(args []string, manager *TaskManager) {
 	if len(args) < 1 {
 		fmt.Println("Uso: delete <id>")
 		return
@@ -82,20 +73,16 @@ func handleDelete(args []string, tasks []Task) {
 		return
 	}
 
-	updated, err := DeleteTask(tasks, id)
+	err = manager.DeleteTask(id)
 	if err != nil {
 		fmt.Println(msgError, err)
 		return
 	}
 
-	if err := SaveTasks(updated); err != nil {
-		fmt.Println(msgSaveError, err)
-		return
-	}
 	fmt.Printf("Tarea %d eliminada\n", id)
 }
 
-func handleMarkStatus(args []string, tasks []Task, newStatus string) {
+func handleMarkStatus(args []string, manager *TaskManager, newStatus TaskStatus) {
 	if len(args) < 1 {
 		fmt.Printf("Uso: mark <id> (para marcar como %s)\n", newStatus)
 		return
@@ -107,15 +94,11 @@ func handleMarkStatus(args []string, tasks []Task, newStatus string) {
 		return
 	}
 
-	updated, err := MarkStatus(tasks, id, newStatus)
+	err = manager.MarkStatus(id, newStatus)
 	if err != nil {
 		fmt.Println(msgError, err)
 		return
 	}
 
-	if err := SaveTasks(updated); err != nil {
-		fmt.Println(msgSaveError, err)
-		return
-	}
 	fmt.Printf("Tarea %d marcada como %s\n", id, newStatus)
 }

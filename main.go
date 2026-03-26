@@ -16,27 +16,26 @@ func main() {
 	command := args[0]
 	cmdArgs := args[1:]
 
-	tasks, err := LoadTasks()
+	manager, err := NewTaskManager()
 	if err != nil {
-		fmt.Println("Error al cargar tareas:", err)
+		fmt.Println("Error al iniciar TaskManager:", err)
 		os.Exit(1)
 	}
 
 	switch command {
 	case "add":
-		handleAdd(cmdArgs, tasks)
+		handleAdd(cmdArgs, manager)
 	case "list":
-		handleList(cmdArgs, tasks)
+		handleList(cmdArgs, manager)
 	case "update":
-		handleUpdate(cmdArgs, tasks)
+		handleUpdate(cmdArgs, manager)
 	case "delete":
-		handleDelete(cmdArgs, tasks)
+		handleDelete(cmdArgs, manager)
 	case "mark-in-progress":
-		handleMarkStatus(cmdArgs, tasks, "En Curso")
+		handleMarkStatus(cmdArgs, manager, StatusInProgress)
 	case "mark-done":
-		handleMarkStatus(cmdArgs, tasks, "Hecho")
+		handleMarkStatus(cmdArgs, manager, StatusDone)
 	default:
 		fmt.Printf("Comando desconocido: %s\n", command)
 	}
 }
-
