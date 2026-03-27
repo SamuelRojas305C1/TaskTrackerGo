@@ -8,30 +8,34 @@ import (
 const msgNotFound = "no se encontró tarea con ID %d"
 
 type TaskManager struct {
-	tasks []Task
+	userID int
+	tasks  []Task
 }
 
-func NewTaskManager() (*TaskManager, error) {
-	tasks, err := LoadTasks()
+func NewTaskManager(userID int) (*TaskManager, error) {
+	tasks, err := LoadTasks(userID)
 	if err != nil {
 		return nil, err
 	}
-	return &TaskManager{tasks: tasks}, nil
+	return &TaskManager{userID: userID, tasks: tasks}, nil
 }
 
 // save wraps the SaveTasks call
 func (m *TaskManager) save() error {
-	return SaveTasks(m.tasks)
+	return SaveTasks(m.userID, m.tasks)
 }
 
 func (m *TaskManager) AddTask(description string) (Task, error) {
 	newID := 1
-	if len(m.tasks) > 0 {
-		newID = m.tasks[len(m.tasks)-1].ID + 1
+	for _, t := range m.tasks {
+		if t.ID >= newID {
+			newID = t.ID + 1
+		}
 	}
 
 	newTask := Task{
 		ID:          newID,
+		UserID:      m.userID,
 		Description: description,
 		Status:      StatusPending,
 		CreatedAt:   time.Now(),

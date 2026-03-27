@@ -1,0 +1,10 @@
+[
+ {
+  "id": 1,
+  "userId": 1,
+  "description": "Aprender Go",
+  "status": "Pendiente",
+  "createdAt": "2026-03-27T14:58:49.8686498-04:00",
+  "updatedAt": "2026-03-27T14:58:49.8686498-04:00"
+ }
+]
