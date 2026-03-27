@@ -1,0 +1,26 @@
+[
+ {
+  "id": 1,
+  "userId": 3,
+  "description": "existir",
+  "status": "Pendiente",
+  "createdAt": "2026-03-27T15:21:39.1475518-04:00",
+  "updatedAt": "2026-03-27T15:21:39.1475518-04:00"
+ },
+ {
+  "id": 2,
+  "userId": 3,
+  "description": "ser linda",
+  "status": "Hecho",
+  "createdAt": "2026-03-27T15:22:23.7529893-04:00",
+  "updatedAt": "2026-03-27T15:24:17.155596-04:00"
+ },
+ {
+  "id": 3,
+  "userId": 3,
+  "description": "ser casarme",
+  "status": "Pendiente",
+  "createdAt": "2026-03-27T15:22:33.1653066-04:00",
+  "updatedAt": "2026-03-27T15:22:33.1653066-04:00"
+ }
+]

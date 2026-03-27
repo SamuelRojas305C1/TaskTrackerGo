@@ -10,5 +10,11 @@
   "email": "bjbm@email.com",
   "passwordHash": "$2a$10$xYJWyZcYzZSUUq8OCAgrCuJhwlbYYkwGYKDJ7rJgmFqRJh2BAv3.G",
   "name": "Brian"
+ },
+ {
+  "id": 3,
+  "email": "Samary@email.com",
+  "passwordHash": "$2a$10$xxL5uQjHn6tmFn4RTXZJDuCPJdemWEN7XP6pfY/Oq5THc5E/Ok0zy",
+  "name": "Samary"
  }
 ]
